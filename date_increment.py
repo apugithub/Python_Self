@@ -7,8 +7,8 @@ print("Today is : " , date1)
 
 for i in range (1,4):
     date2 = datetime.datetime.today().date() + datetime.timedelta(days=i)
-    #print("After ", i , " day/days : ", date2 )
-    print("After %d day/days : " %i, date2) # Prev line and this line will print the same
+    print("After ", i , " day/days : ", date2 )
+    #print("After %d day/days : " %i, date2) # Prev line and this line will print the same
 
 
 
