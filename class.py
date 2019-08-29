@@ -20,4 +20,5 @@ a1 = human("San", 12)
 a2 = human("John", 17)
 print(a1.name , a2.age)
 
-@property
+
+

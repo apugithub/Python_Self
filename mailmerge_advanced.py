@@ -1,3 +1,5 @@
+# In this program make message is formed in a different way
+
 import datetime
 
 class MessageUser():
