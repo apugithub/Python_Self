@@ -28,3 +28,15 @@ print(str_test)
 print ('\n')
 print(num_test)
 print(item_2)
+
+
+
+#####Recall that this means that you are returning a reference to the function say_hello. In contrast say_hello()
+# with parentheses refers to the result of evaluating the function
+def sayhello(test):
+    return "San"
+
+def greet_bob(greeter_func):
+    return greeter_func("Bob")
+
+print(greet_bob(sayhello))
