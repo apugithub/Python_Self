@@ -1,14 +1,16 @@
-def quiz(grade):
-    if grade> 50:
-        outcome = "passed"
-    else:
-        outcome = 'failed'
-    print("You", outcome, "with the grade of ", grade)
+planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
 
-quiz(60)
+planets [:2] = ["san","tanu", "Hello", "now" ] #Pay attention, first two position of the array will be filled by
+               #all 4 elements, as list is mutable by nature]
+print(planets)
 
-def quiz1(grade):   # New if approach
-    outcome = "successed" if grade > 40 else "failed"
-    print("You", outcome, "with the grade of ", grade)
+print(planets[-1:-2])   # This will not give any o/p as the traverse cant be done reverse, its always from left to right
+print (planets[-2:-1])  # So this one will return result
 
-quiz1(30)
+print(sorted(planets))
+
+a = 10 + 3.34j
+print (a.imag)
+
+
+

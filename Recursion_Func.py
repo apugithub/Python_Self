@@ -9,7 +9,7 @@ def traverse_list (abc):
         print ("the list is empty")
     else:
         for i in abc:
-            if isinstance(i, list):
+            if isinstance(i, list):   #Means if there is list inside list
                 traverse_list(i)
             else:
                 if isinstance(i, int) or isinstance(i, float):
