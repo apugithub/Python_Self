@@ -1,16 +1,17 @@
-planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
+import smtplib
+fromaddr = '9176833080apu@gmail.com'
+toaddrs = '9176833080apu@gmail.com'
+msg = 'Place Message here'
 
-planets [:2] = ["san","tanu", "Hello", "now" ] #Pay attention, first two position of the array will be filled by
-               #all 4 elements, as list is mutable by nature]
-print(planets)
+#provide gmail user name and password
+username = '9176833080apu@gmail.com'
+password = '9176833080'
 
-print(planets[-1:-2])   # This will not give any o/p as the traverse cant be done reverse, its always from left to right
-print (planets[-2:-1])  # So this one will return result
-
-print(sorted(planets))
-
-a = 10 + 3.34j
-print (a.imag)
-
-
-
+# functions to send an email
+server = smtplib.SMTP('smtp.gmail.com:587')
+server.ehlo()
+server.starttls()
+server.ehlo()
+server.login(username,password)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
