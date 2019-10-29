@@ -11,10 +11,12 @@ text = "Hello this is test mail from Python in PLAIN format"
 username = from_addr
 password = '9176833080'
 
-msg = MIMEMultipart()   # Through multipart tou can separate
+msg = MIMEMultipart()   # Through multipart you can separate into 'To', 'From' , 'Subject'
 
 msg['From'] = from_addr
-msg['To'] = "9176833080apu@gmail.com, ghosh.santanu30@gmail.com"   #msg['To'] needs to be a string
+msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] needs to be a string, same as next line
+#msg["To"] = ",".join(to_addr)  # As #msg['To'] needs to be a string, that's why this line,
+# and here no need to append this with double quotes, coz this (",".join(to_addr)) is returning string only
 msg['Subject'] = 'Test Mail_HTML'
 
 html = """\
