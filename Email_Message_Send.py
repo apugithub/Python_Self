@@ -4,10 +4,13 @@ from smtplib import SMTP, SMTPAuthenticationError, SMTPException
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
+username = '9176833080apu@gmail.com'
+password = '9176833080'
+from_email = username
 
 class MessageUser():
     user_details = []
+    messages = []
     email_messages = []
     base_message = """Hi {name}! 
 
@@ -31,6 +34,7 @@ class MessageUser():
         if Email is not None:     #This is same as if Email!= None
             detail["Email"] = Email
         self.user_details.append(detail)
+        print(detail)
 
 
     def get_details(self):
@@ -48,28 +52,55 @@ class MessageUser():
                     date = date,
                     total = amount
                 )
-                self.email_messages.append(new_msg)
-            return self.email_messages
+                user_email= detail.get("Email")
+                if user_email:
+                    user_data = {
+                        "email": user_email,
+                        "message": new_msg
+                    }
+                    self.email_messages.append(user_data)
+                else:
+                    self.messages.append(new_msg)
+            return self.messages
         return []
 
     def send_email(self):
         self.make_messages()
         if len(self.email_messages)>0 :
             for detail in self.email_messages:
-                user_email = detail["Email"]
-                user_message = detail[""]
+                user_email = detail["email"]
+                user_message = detail["message"]
+                try:
+                    email_conn= smtplib.SMTP('smtp.gmail.com:587')
+                    email_conn.ehlo()
+                    email_conn.starttls()
+                    email_conn.login(username, password)
+                    the_msg = MIMEMultipart()
+                    the_msg["Subject"] = "Billing Invoice"
+                    the_msg["From"] = from_email
+                    the_msg["To"] = user_email
+                    part_1 = MIMEText(user_message, 'plain')
+                    the_msg.attach(part_1)
+                    email_conn.sendmail(from_email, [user_email], the_msg.as_string())
+                    email_conn.quit()
+                    print("Email sent successfully to: " + user_email)
+                except smtplib.SMTPException:
+                    print("error sending message")
+            return True
+        return False
 
 
 
 
 obj = MessageUser()
-obj.add_user("San", 123.65, "9176833080apu@gmail.com")
-obj.add_user("jacob", 345.67, "9176833080apu@gmail.com")
-obj.add_user("dAnial", 564, "9176833080apu@gmail.com")
+obj.add_user("jacob", 345.67,  "9176833080apu@gmail.com")
+obj.add_user("dAnial", 564,  "9176833080apu@gmail.com")
 
-obj.get_details()
+#obj.get_details()
 
-print(obj.make_messages(), "\n")
+obj.send_email()
+
+
 
 
 

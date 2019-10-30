@@ -11,7 +11,7 @@ text = "Hello this is test mail from Python"
 username = from_addr
 password = '9176833080'
 
-msg = MIMEMultipart()   # Through multipart tou can separate
+msg = MIMEMultipart()   # Through multipart you can separate
 
 msg['From'] = from_addr
 msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] needs to be a string, same as next line

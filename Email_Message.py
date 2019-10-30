@@ -48,9 +48,9 @@ class MessageUser():
         return []
 
 obj = MessageUser()
-obj.add_user("San", 123.65, "9176833080apu@gmail.com")
-obj.add_user("jacob", 345.67, "9176833080apu@gmail.com")
-obj.add_user("dAnial", 564, "9176833080apu@gmail.com")
+obj.add_user("San", 123.65, Email= "9176833080apu@gmail.com")
+obj.add_user("jacob", 345.67, Email = "9176833080apu@gmail.com")
+obj.add_user("dAnial", 564, Email = "9176833080apu@gmail.com")
 
 obj.get_details()
 
