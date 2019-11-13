@@ -15,7 +15,7 @@ print(planets.index('Mars'))
 print(a in planets)  # Nice feature....boolean. return TRUE if a is in Planets
 print(planets[-1])
 
-
+'''
 
 # Example 1
 #Members of each team are stored in a list. The Coach is the first name in the list, the captain is the second name in the list, and other players are listed after that.
@@ -34,11 +34,11 @@ def losing_team_captain(teams):
 # A guest is considered 'fashionably late' if they arrived after at least half of the party's guests. However, they must not be the very last guest (that's taking it too far)
 party_attendees = ['Adela', 'Fleda', 'Owen', 'May', 'Mona', 'Gilbert', 'Ford']
 
-'''
+
 def fashionably_late(arrivals, name):
     order = arrivals.index(name)
     return order >= len(arrivals) / 2 and order != len(arrivals) - 1
-'''
+
 def test (arrivals, name):
     if arrivals.index(name) >= len(arrivals)/ 2 and arrivals.index(name) != len(arrivals)-1:
         print("Fashionably Late")
@@ -48,7 +48,7 @@ fashionably_late(party_attendees, 'Mona')
 
 ========================================================================================================
 
-
+'''
 
 
 

@@ -1,3 +1,6 @@
+#30 Days of Python
+#https://github.com/codingforentrepreneurs/30-Days-of-Python
+
 import datetime
 import smtplib
 from smtplib import SMTP, SMTPAuthenticationError, SMTPException
