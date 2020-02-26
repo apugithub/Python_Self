@@ -15,8 +15,14 @@ df = pd.read_csv('data/pokemon_data.csv') #Dataframe (the core of pandas)
 
 #print(df['HP'][10:15])
 
-print(df.iloc[0:4,[0,1,2,3]])  # 0:4 is the index range of rows and [0,1,2,3] are the position of columns like 1st, 2nd
+#print(df.iloc[0:4,[0,1,2,3]])  # 0:4 is the index range of rows and [0,1,2,3] are the position of columns like 1st, 2nd
 
+#print(df.loc[df['HP']==80])   #like where condition
 
+#print(df.describe())
+
+#print(df.shape) # returns number of rows and columns
+
+print (df.count()) # returns column wise not null count
 
 
