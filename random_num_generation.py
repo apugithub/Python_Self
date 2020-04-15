@@ -17,4 +17,23 @@ for _ in range (3):  # look the variable i in for loop is not required.. if not 
 
 print("\n")
 
+a = [23, 43, 11, 87.1, 37, 5, 190]
+
+for i in range(1,3):
+    print("Randomly picked numbers_%d=>" %i, ra.choice(a) )  #randomly picks from a list
+
+print("\n")
+
+for i in range(1,3):
+    print("Randomly picked numbers_%d=>" %i, ra.choices(a,k=2))
+
+print("\n")
+
+
+for i in range(1,4):
+    ra.shuffle(a)  # This is meant to shuffle the list
+    print("Just shuffling a list_%d=> " %i, a)
+    #print("Just shuffling a list_%d=> " %i, ra.shuffle(a)) **** This would return nothing as shuffle()
+    # function does not return a list.
+
 
