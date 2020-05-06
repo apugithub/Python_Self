@@ -38,9 +38,12 @@ for i in url_list:
     nav = b.find('span', attrs={'class':'amt'})   # inside block b, appropriate class is chosen
     date = b.find('div', attrs= {'class':'grayvalue'})
 
+    nav_float = float(nav.text[1:]) # As first letter  of the extracted NAV is rupee sign, hence discarding the first letter,
+    #then converting the same to a floating number, to avoid casting issue at excel
+
     fund_name.append(name.text) # we are appending only the text part of extracted field 'name'
-    fund_nav.append(nav.text)  # same as above for nav
-    nav_date.append(date.text)
+    fund_nav.append(nav_float)  # just appending nav_float value
+    nav_date.append(date.text) # we are appending only the text part of extracted field 'date'
 
 
 df = pd.DataFrame({'Fund Name':fund_name, 'Fund NAV':fund_nav, 'NAV Date': nav_date})
