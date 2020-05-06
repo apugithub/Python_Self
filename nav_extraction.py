@@ -1,0 +1,51 @@
+import requests
+from bs4 import BeautifulSoup as bs  #is required to parse HT
+import pandas as pd
+
+url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan/MAA190',
+            'https://www.moneycontrol.com/mutual-funds/nav/axis-long-term-equity-fund-direct-plan/MAA192',
+            'https://www.moneycontrol.com/mutual-funds/nav/dsp-liquidity-fund-direct-plan/MDS613',
+            'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
+            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-feeder-franklin-u-s-opportunities-fund-direct-plan/MTE305',
+            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-savings-fund-direct-growth/MTE365',
+            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-ultra-short-bond-fund-super-institutional-plan-direct-plan/MTE379',
+            'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-direct-plan/MAG741',
+            'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-regular-plan/MAG303',
+            'https://www.moneycontrol.com/mutual-funds/nav/kotak-money-market-scheme-direct-plan/MKM556',
+            'https://www.moneycontrol.com/mutual-funds/nav/kotak-standard-multicap-fund-direct-plan/MKM520',
+            'https://www.moneycontrol.com/mutual-funds/nav/l-t-emerging-businesses-fund-direct-plan/MCC492',
+            'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-liquid-fund-direct-plan-growth/MRC978',
+            'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-tax-saver-fund-direct-plan-growth/MRC938'
+            'https://www.moneycontrol.com/mutual-funds/nav/sbi-blue-chip-fund-direct-plan-growth/MSB532',
+            'https://www.moneycontrol.com/mutual-funds/nav/sbi-equity-hybrid-fund-direct-plan-growth/MSB516'
+            ]
+
+fund_name = [] # Array to store all fund names, separated by coma
+fund_nav = [] # Array to store all fund NAVs, separated by coma
+nav_date = [] # Array to store all NAV dates, separated by coma
+
+for i in url_list:
+    url = requests.get(i)
+
+    soup = bs(url.content,'html.parser')
+
+    #a = soup.find('div', attrs={'class': 'common_left'})
+    #name = a.find('h1', attrs={'class': 'page_heading'})
+    name = soup.find('h1', attrs={'class': 'page_heading'}) # we can get from h1 directly as with h1 and the same class
+    # there are no other values, other than the fund name
+
+    b = soup.find('div', attrs={'class':'leftblok'}) #Going into mail HTML block
+    nav = b.find('span', attrs={'class':'amt'})   # inside block b, appropriate class is chosen
+    date = b.find('div', attrs= {'class':'grayvalue'})
+
+    fund_name.append(name.text) # we are appending only the text part of extracted field 'name'
+    fund_nav.append(nav.text)  # same as above for nav
+    nav_date.append(date.text)
+
+
+df = pd.DataFrame({'Fund Name':fund_name, 'Fund NAV':fund_nav, 'NAV Date': nav_date})
+df.to_excel(r'D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/Fund_with_NAV.xlsx', index= False, header=True)
+
+print(df)
+
+
