@@ -1,13 +1,18 @@
-import datetime
+import requests
+from bs4 import BeautifulSoup as bs
 
 
-a = datetime.datetime.now()  # This prints 2020-05-07 23:08:56.574927
-b = a.strftime("%d-%m-%Y, %I:%M:%S %p")  # This prints 07-05-2020, 11:08:56 PM    %p is for AM/PM
-c = a.strftime("%d-%m-%Y, %H:%M:%S")  # This prints 07-05-2020, 23:10:31    %H for 24 hrs format
+url = requests.get('https://www.google.com/')
 
-time_zone =  datetime.datetime.now().astimezone().tzname()   #Display local timezone name
+soup = bs(url.content,'html.parser')
 
-print (a)
-print(b)
-print(c)
-print(time_zone)
+a = soup.find('a',  attrs={'class':'gb_g'})
+#c = a.find('h5').text
+b = a.text
+
+print (b)
+
+
+
+
+

@@ -34,7 +34,7 @@ for i in url_list:
     name = soup.find('h1', attrs={'class': 'page_heading'}) # we can get from h1 directly as with h1 and the same class
     # there are no other values, other than the fund name
 
-    b = soup.find('div', attrs={'class':'leftblok'}) #Going into mail HTML block
+    b = soup.find('div', attrs={'class':'leftblok'}) #Going into main HTML block
     nav = b.find('span', attrs={'class':'amt'})   # inside block b, appropriate class is chosen
     date = b.find('div', attrs= {'class':'grayvalue'})
 
