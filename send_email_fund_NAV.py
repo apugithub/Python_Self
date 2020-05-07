@@ -3,10 +3,14 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import pandas as pd
 from tabulate import tabulate
+import datetime
 
 import requests
 from bs4 import BeautifulSoup as bs  #is required to parse HT
 
+a = datetime.datetime.now()
+curr_time = a.strftime("%d-%m-%Y, %I:%M:%S %p")    # This is being used in Email subject
+time_zone = a.astimezone().tzname()    #Displays local timezone name
 
 from_addr = '9176833080apu@gmail.com'
 to_addr = ["9176833080apu@gmail.com", "ghosh.santanu30@gmail.com"]  #the recipients in sendmail(sender, recipients, message) needs to be a list:
@@ -72,7 +76,7 @@ html = """
 </style>
 </head>
 <body><p>Hello, </p>
-<p><b>This data is from</b> <i>MoneyControl.com</i></p> <br></br>
+<p><b>This data is from</b> <i style="color:DodgerBlue;">MoneyControl.com</i></p> <br></br>
 {table}
 <p>Regards,</p>
 <p>Me</p>
@@ -91,7 +95,7 @@ msg['From'] = from_addr
 msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] needs to be a string, same as next line
 #msg["To"] = ",".join(to_addr)  # As #msg['To'] needs to be a string, that's why this line,
 # and here no need to append this with double quotes, coz this (",".join(to_addr)) is returning string only
-msg['Subject'] = 'My Funds NAV Update'
+msg['Subject'] = 'My Funds NAV Update | '+ curr_time + '(' + time_zone + ')'
 
 
 server = smtplib.SMTP('smtp.gmail.com:587')   #This can be written as server = SMTP (...)   if you import SMTP already
