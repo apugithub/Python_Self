@@ -49,3 +49,6 @@ except :
     print("an error occured")
 server.quit()
 
+# ** If you are unable to send due to SMTP error tyr the below two links from your browser
+# https://www.google.com/settings/security/lesssecureapps    # this is to enable less secure apps to connect
+# https://accounts.google.com/DisplayUnlockCaptcha    # this is to avoid 'location unknown' error

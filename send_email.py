@@ -21,6 +21,7 @@ msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] nee
 msg['Subject'] = 'Test Mail_Test'
 msg.attach(MIMEText(text))
 
+
 server = smtplib.SMTP('smtp.gmail.com:587')   #This can be written as server = SMTP (...)   if you import SMTP already
 server.ehlo()
 server.starttls()
@@ -34,3 +35,7 @@ except :
     print("an error occured")
 server.quit()
 
+
+# ** If you are unable to send due to SMTP error tyr the below two links from your browser
+# https://www.google.com/settings/security/lesssecureapps    # this is to enable less secure apps to connect
+# https://accounts.google.com/DisplayUnlockCaptcha    # this is to avoid 'location unknown' error
