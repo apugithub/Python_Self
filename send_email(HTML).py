@@ -19,7 +19,7 @@ msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] nee
 # and here no need to append this with double quotes, coz this (",".join(to_addr)) is returning string only
 msg['Subject'] = 'Test Mail_HTML'
 
-html = """\
+html = """
 <html>
   <head></head>
   <body>
