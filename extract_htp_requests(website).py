@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-url = requests.get('https://www.covid19india.org.com/')
+url = requests.get('https://covidstat.info')
 soup = bs(url.content,'html.parser')
 
-#print(soup)
+print(soup)
 
 for i in soup.findAll('link'):
     #print(i.get('href'))
