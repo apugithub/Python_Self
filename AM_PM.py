@@ -10,4 +10,4 @@ time_zone =  datetime.datetime.now().astimezone().tzname()   #Display local time
 print (a)
 print(b)
 print(c)
-print(time_zone)
+print(time_zone+'\n')
