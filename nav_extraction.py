@@ -4,6 +4,7 @@ import pandas as pd
 
 url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan/MAA190',
             'https://www.moneycontrol.com/mutual-funds/nav/axis-long-term-equity-fund-direct-plan/MAA192',
+            'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-liquidity-fund-direct-plan/MDS613',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
             'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-feeder-franklin-u-s-opportunities-fund-direct-plan/MTE305',
