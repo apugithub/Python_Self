@@ -99,7 +99,7 @@ html = """
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<h3><em><strong><span style="text-decoration: underline;"><span style="background-color: #ffff00;">West Bengal</span></span> Cases : as on {wb_lastupdatedtime}</strong></em></h3>
+<h3><em><strong><span style="text-decoration: underline;"><span style="background-color: #ffff00;">West Bengal</span></span> Total Cases : as on {wb_lastupdatedtime}</strong></em></h3>
 <ul>
 <li>
 <h3><em><strong><span style="color: #ff0000;">Confirmed</span>:&nbsp; {wb_confirmed}</strong></em></h3>
