@@ -22,4 +22,5 @@ schedule.cancel_job(job)  # This is another way of stopping a job by job name (h
 
 while True:
     schedule.run_pending()  # This will start running all the scheduled jobs.
+    schedule.
     #time.sleep(10)
