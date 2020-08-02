@@ -21,6 +21,9 @@ def nav_extraction ():
 def png_to_jpg ():
     import PNG_to_JPG_Converter
 
+def send_email_fund_nav():
+    import send_email_fund_NAV
+
 button1 = tk.Button(root, text=' Exit Application ', command=root.destroy, bg='white', fg='black')
 canvas1.create_window(300, 270, window=button1)
 
@@ -35,5 +38,8 @@ canvas1.create_window(400, 50, window=button4)
 
 button5 = tk.Button(root, text=' AM_PM (Test) ', command=test, bg='orange', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(550, 50, window=button5)
+
+button6 = tk.Button(root, text=' Send Email (Find NAV) ', command=send_email_fund_nav, bg='blue', fg='white', font=('Arial', 11, 'bold'))
+canvas1.create_window(95, 100, window=button6)
 
 root.mainloop()
