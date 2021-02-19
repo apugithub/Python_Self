@@ -8,7 +8,7 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
             'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-feeder-franklin-u-s-opportunities-fund-direct-plan/MTE305',
             'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-savings-fund-direct-growth/MTE365',
-            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-ultra-short-bond-fund-super-institutional-plan-direct-plan/MTE379',
+            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-ultra-short-bond-fund-super-institutional-direct-growth/MTE379',
             'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-direct-plan/MAG741',
             'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-regular-plan/MAG303',
             'https://www.moneycontrol.com/mutual-funds/nav/kotak-money-market-scheme-direct-plan/MKM556',
@@ -18,7 +18,8 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-tax-saver-fund-direct-plan-growth/MRC938',
             'https://www.moneycontrol.com/mutual-funds/nav/sbi-blue-chip-fund-direct-plan-growth/MSB532',
             'https://www.moneycontrol.com/mutual-funds/nav/sbi-equity-hybrid-fund-direct-plan-growth/MSB516',
-            'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608'
+            'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608',
+            'https://www.moneycontrol.com/mutual-funds/nav/parag-parikh-flexi-cap-fund-direct-plan/MPP002'
             ]
 
 fund_name = [] # Array to store all fund names, separated by coma
@@ -38,6 +39,8 @@ for i in url_list:
     b = soup.find('div', attrs={'class':'leftblok'}) #Going into main HTML block
     nav = b.find('span', attrs={'class':'amt'})   # inside block b, appropriate class is chosen
     date = b.find('div', attrs= {'class':'grayvalue'})
+
+    #print (name, nav)
 
     nav_float = float(nav.text[1:]) # As first letter  of the extracted NAV is rupee sign, hence discarding the first letter,
     #then converting the same to a floating number, to avoid casting issue at excel

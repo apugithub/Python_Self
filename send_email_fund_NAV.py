@@ -25,7 +25,7 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
             'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-feeder-franklin-u-s-opportunities-fund-direct-plan/MTE305',
             'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-savings-fund-direct-growth/MTE365',
-            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-ultra-short-bond-fund-super-institutional-plan-direct-plan/MTE379',
+            'https://www.moneycontrol.com/mutual-funds/nav/franklin-india-ultra-short-bond-fund-super-institutional-direct-growth/MTE379',
             'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-direct-plan/MAG741',
             'https://www.moneycontrol.com/mutual-funds/nav/idfc-tax-advantage-elss-fund-regular-plan/MAG303',
             'https://www.moneycontrol.com/mutual-funds/nav/kotak-money-market-scheme-direct-plan/MKM556',
