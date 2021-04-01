@@ -17,5 +17,8 @@ def fw (**kargs):
         print (df)
         #spark.sql(df)
 
-fw(tables =['t1','t2','t3'], linkage= ['link1', 'link2', 'link3'], filter= ['1=1','filter1', 'filter2'])
+dct = { 'tables' : ['t1','t2','t3'], 'linkage' : ['link1', 'link2', 'link3'], 'filter' : ['1=1','filter1', 'filter2'] }
+
+# Accessing dictionary elements and passing to the function
+fw(tables = dct['tables'], linkage= dct['linkage'], filter= dct['filter'])
 
