@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs  #is required to parse HT
 import pandas as pd
 
-url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan/MAA190',
+url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan-growth/MAA190',
             'https://www.moneycontrol.com/mutual-funds/nav/axis-long-term-equity-fund-direct-plan/MAA192',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-liquidity-fund-direct-plan/MDS613',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
@@ -41,6 +41,7 @@ for i in url_list:
     date = b.find('div', attrs= {'class':'grayvalue'})
 
     #print (name, nav)
+
 
     nav_float = float(nav.text[1:]) # As first letter  of the extracted NAV is rupee sign, hence discarding the first letter,
     #then converting the same to a floating number, to avoid casting issue at excel
