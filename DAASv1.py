@@ -1,7 +1,27 @@
 #This code will give output in cross linkage fashion.. like as per current input the output will be 
 '''
 SELECT * FROM t1 INNER JOIN t2 ON link1
-SELECT * FROM t2 INNER JOIN t3 ON link2 '''
+SELECT * FROM t2 INNER JOIN t3 ON link2
+
+
+from pyspark.sql import SparkSession
+from pyspark import SparkContext
+from pyspark.sql.functions import *
+
+
+#Initializing spark session
+spark = SparkSession.builder.appName("DAAS") \
+.config("hive.exec.dynamic.partition", "true") \
+.config("hive.exec.dynamic.partition.mode", "nonstrict") \
+.config("spark.sql.warehouse.dir", "/apps/hive/warehouse") \
+.config("spark.sql.catalogImplementation","in-memory") \
+.config("spark.sql.shuffle.partitions","20") \
+.enableHiveSupport() \
+.getOrCreate()
+
+#setloglevel
+spark.sparkContext.setLogLevel("ERROR")
+'''
 
 def fw (**kargs):
 

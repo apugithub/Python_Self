@@ -1,22 +1,9 @@
-## There code will merge all the table and add all the links and filters
+'''
+Sample Input --
+{"requests":"ACCOUNT_CAAS","tables": ["t1", "t2", "t3"], "sourcecolumns": ["t1.a","t2.b"], "linkages": ["link1", "link2"],"filter": ["1=1", "filter1", "filter2"], "broadcast": ["t1","t2"]}
+{"requests":"TRADE_CAAS","tables": ["t4", "t5", "t6"], "sourcecolumns": ["t4.c","t5.d"], "linkages": ["link3"],"filter": ["filter3", "filter4", "filter5"], "broadcast": ["t4","t5"]}
+{"requests":"ACCOUNT_CAAS","tables": ["tbl1", "tbl2", "tbl3"], "sourcecolumns": ["tbl1.a","tbl3.b"], "linkages": ["LNK1", "LNK2"],"filter": ["FLTR", "FLTR1", "FLTR2"], "broadcast": []}
 
-'''from pyspark.sql import SparkSession
-from pyspark import SparkContext
-from pyspark.sql.functions import *
-
-
-#Initializing spark session
-spark = SparkSession.builder.appName("DAAS") \
-.config("hive.exec.dynamic.partition", "true") \
-.config("hive.exec.dynamic.partition.mode", "nonstrict") \
-.config("spark.sql.warehouse.dir", "/apps/hive/warehouse") \
-.config("spark.sql.catalogImplementation","in-memory") \
-.config("spark.sql.shuffle.partitions","20") \
-.enableHiveSupport() \
-.getOrCreate()
-
-#setloglevel
-spark.sparkContext.setLogLevel("ERROR")
 '''
 
 # jason import is required to convert string dictionary to dictionary
@@ -27,7 +14,8 @@ def main():
     sql = []
     status = []
     msg = []
-    final = [sql, status, msg]
+    rqst = []
+    final = [sql, status, msg, rqst]
 
     with open("E:/hadoop/sample.json", "r") as file:
         dict_file = file.readlines()
@@ -43,6 +31,7 @@ def main():
             sql.append("None")
             status.append("Failed")
             msg.append("Discrepancy in number of links and tables provided")
+            rqst.append(kargs['requests'])
 
         else:
             # Framing broadcast string
@@ -51,6 +40,7 @@ def main():
             else:
                 brdcst = "/*+ broadcast(" + ','.join(i for i in kargs['broadcast']) + ")*/ "
 
+            # Main SQL statement formation
             df = "select " + brdcst + ', '.join(i for i in kargs['sourcecolumns']) + \
                  " from " + ' join '.join(i for i in kargs['tables']) + " on " + ' on '.join(
                  i for i in kargs['linkages']) + " where " + ' and '.join(i for i in kargs['filter'])
@@ -58,13 +48,21 @@ def main():
             sql.append(df)
             status.append("Success")
             msg.append("SQL Created Successfully")
+            rqst.append(kargs['requests'])
 
 
     for lines in dict_file:
-        # Convert dictionary string to dictionary
-        dct = json.loads(lines)
-        # Accessing dictionary elements and passing to the function
-        fw(tables=dct["tables"], sourcecolumns=dct["sourcecolumns"], linkages=dct["linkages"], filter=dct["filter"], broadcast=dct["broadcast"])
+        # Below try-except block will catch any issue in provided dictionaries
+        try:
+            # Convert dictionary string to dictionary
+            dct = json.loads(lines)
+            # Accessing dictionary elements and passing to the function
+            fw(tables=dct["tables"], sourcecolumns=dct["sourcecolumns"], linkages=dct["linkages"],
+               filter=dct["filter"], broadcast=dct["broadcast"], requests=dct["requests"])
+        except Exception as x:
+            sql.append("None")
+            status.append("Failed")
+            msg.append(x)
 
     print(final)
 
@@ -78,6 +76,3 @@ def main():
 # Executing main()
 if __name__=="__main__":
     main()
-
-
-

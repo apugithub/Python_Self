@@ -1,24 +1,3 @@
-## There code will merge all the table and add all the links and filters
-
-'''from pyspark.sql import SparkSession
-from pyspark import SparkContext
-from pyspark.sql.functions import *
-
-
-#Initializing spark session
-spark = SparkSession.builder.appName("DAAS") \
-.config("hive.exec.dynamic.partition", "true") \
-.config("hive.exec.dynamic.partition.mode", "nonstrict") \
-.config("spark.sql.warehouse.dir", "/apps/hive/warehouse") \
-.config("spark.sql.catalogImplementation","in-memory") \
-.config("spark.sql.shuffle.partitions","20") \
-.enableHiveSupport() \
-.getOrCreate()
-
-#setloglevel
-spark.sparkContext.setLogLevel("ERROR")
-'''
-
 # jason import is required to convert string dictionary to dictionary
 import json
 
@@ -27,7 +6,8 @@ def main():
     sql = []
     status = []
     msg = []
-    final = [sql, status, msg]
+    rqst = []
+    final = [sql, status, msg, rqst]
 
     with open("E:/hadoop/sample.json", "r") as file:
         dict_file = file.readlines()
@@ -43,6 +23,7 @@ def main():
             sql.append("None")
             status.append("Failed")
             msg.append("Discrepancy in number of links and tables provided")
+            rqst.append(kargs['requests'])
 
         else:
             # Framing broadcast string
@@ -51,6 +32,7 @@ def main():
             else:
                 brdcst = "/*+ broadcast(" + ','.join(i for i in kargs['broadcast']) + ")*/ "
 
+            # Main SQL statement formation
             df = "select " + brdcst + ', '.join(i for i in kargs['sourcecolumns']) + \
                  " from " + ' join '.join(i for i in kargs['tables']) + " on " + ' on '.join(
                  i for i in kargs['linkages']) + " where " + ' and '.join(i for i in kargs['filter'])
@@ -58,13 +40,21 @@ def main():
             sql.append(df)
             status.append("Success")
             msg.append("SQL Created Successfully")
+            rqst.append(kargs['requests'])
 
 
     for lines in dict_file:
-        # Convert dictionary string to dictionary
-        dct = json.loads(lines)
-        # Accessing dictionary elements and passing to the function
-        fw(tables=dct["tables"], sourcecolumns=dct["sourcecolumns"], linkages=dct["linkages"], filter=dct["filter"], broadcast=dct["broadcast"])
+        # Below try-except block will catch any issue in provided dictionaries
+        try:
+            # Convert dictionary string to dictionary
+            dct = json.loads(lines)
+            # Accessing dictionary elements and passing to the function
+            fw(tables=dct["tables"], sourcecolumns=dct["sourcecolumns"], linkages=dct["linkages"],
+               filter=dct["filter"], broadcast=dct["broadcast"], requests=dct["requests"])
+        except Exception as x:
+            sql.append("None")
+            status.append("Failed")
+            msg.append(x)
 
     print(final)
 
@@ -78,6 +68,3 @@ def main():
 # Executing main()
 if __name__=="__main__":
     main()
-
-
-
