@@ -7,7 +7,3 @@ df1 = df.groupby(['country','service'], as_index=False).agg(set) #.values.tolist
 
 # Records wise oriented
 df2 = df1.to_dict(orient='records')
-
-
-
-

@@ -1,6 +1,6 @@
+from pyspark.sql import SparkSession
 
-def func(x):
-    return x + 1
+spark = SparkSession.builder.appName("test").getOrCreate()
 
-def test_answer():
-    assert func(7) == 5
+df = spark.read.text("E:/hadoop/sample.json")
+
