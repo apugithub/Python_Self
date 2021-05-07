@@ -13,7 +13,7 @@ password = '9176833080'
 
 msg = MIMEMultipart()   # Through multipart you can separate
 
-msg['From'] = from_addr
+#msg['From'] = from_addr
 msg['To'] = "9176833080apu@gmail.com,ghosh.santanu30@gmail.com"   #msg['To'] needs to be a string, same as next line
 #msg["To"] = ",".join(to_addr)  # As #msg['To'] needs to be a string, that's why this line,
                                 # and here no need to append this with double quotes,

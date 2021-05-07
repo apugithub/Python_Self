@@ -19,7 +19,7 @@ username = from_addr
 password = '9176833080'
 
 ########################################## Data Frame Creation through web Scrapping ##########################
-url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan/MAA190',
+url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-direct-plan-growth/MAA190',
             'https://www.moneycontrol.com/mutual-funds/nav/axis-long-term-equity-fund-direct-plan/MAA192',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-liquidity-fund-direct-plan/MDS613',
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-tax-saver-fund-direct-plan/MDS572',
@@ -32,10 +32,13 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/kotak-standard-multicap-fund-direct-plan/MKM520',
             'https://www.moneycontrol.com/mutual-funds/nav/l-t-emerging-businesses-fund-direct-plan/MCC492',
             'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-liquid-fund-direct-plan-growth/MRC978',
-            'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-tax-saver-fund-direct-plan-growth/MRC938'
+            'https://www.moneycontrol.com/mutual-funds/nav/nippon-india-tax-saver-fund-direct-plan-growth/MRC938',
             'https://www.moneycontrol.com/mutual-funds/nav/sbi-blue-chip-fund-direct-plan-growth/MSB532',
             'https://www.moneycontrol.com/mutual-funds/nav/sbi-equity-hybrid-fund-direct-plan-growth/MSB516',
-            'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608'
+            'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608',
+            'https://www.moneycontrol.com/mutual-funds/nav/parag-parikh-flexi-cap-fund-direct-plan/MPP002',
+            'https://www.moneycontrol.com/mutual-funds/nav/hdfc-index-fund-direct-plan-nifty-50-plan/MHD1152',
+            'https://www.moneycontrol.com/mutual-funds/nav/l-t-midcap-fund-direct-plan/MCC275'
             ]
 
 fund_name = [] # Array to store all fund names, separated by coma
@@ -105,7 +108,7 @@ server.starttls()
 try:
     server.login(username,password)
     server.sendmail(from_addr,to_addr,msg.as_string())    #Here to_addr has to be a list.
-    print ("Email sent successfully")
+    print ("Fund NAV Email sent successfully")
 except smtplib.SMTPAuthenticationError:
     print("Couldn't login due to Authentication error")
 except :

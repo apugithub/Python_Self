@@ -158,7 +158,7 @@ server.starttls()
 try:
     server.login(username,password)
     server.sendmail(from_addr,to_addr,msg.as_string())    #Here to_addr has to be a list.
-    print ("Email sent successfully")
+    print ("Covid Stat email sent successfully")
 except smtplib.SMTPAuthenticationError:
     print("Couldn't login due to Authentication error")
 except :
