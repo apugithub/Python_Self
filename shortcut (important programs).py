@@ -16,7 +16,7 @@ def covid_email ():
     import covid_data_email
 
 def nav_extraction ():
-    import nav_extraction
+    import nav_extraction_MF_API
 
 def png_to_jpg ():
     import PNG_to_JPG_Converter

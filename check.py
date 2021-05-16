@@ -1,3 +1,16 @@
-import pip
+import pandas as pd
 
-print(pip.__version__)
+df = pd.read_csv('E:/hadoop/test.csv').fillna("NA")
+
+
+
+df2 = df.groupby(['country','service'], as_index=False).agg(list)
+
+#df2.to_csv('E:/hadoop/test_op.csv')
+df3 = df2.to_dict(orient='records')
+
+#print(df3)
+
+
+a = [1,2,3,4,5]
+print(set(a))

@@ -152,6 +152,9 @@ msg['Subject'] = 'Covid Stat | '+ curr_time + ' (' + time_zone + ')'
 
 print("Sending Email...")
 
+
+# If there is a failure use the troubleshoting steps at https://support.google.com/mail/answer/7126229?visit_id=637561422949586344-3167309703&rd=2#cantsignin
+
 server = smtplib.SMTP('smtp.gmail.com:587')   #This can be written as server = SMTP (...)   if you import SMTP already
 server.ehlo()
 server.starttls()
