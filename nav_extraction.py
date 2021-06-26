@@ -21,7 +21,8 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/dsp-equity-bond-fund-direct-plan-growth/MDS608',
             'https://www.moneycontrol.com/mutual-funds/nav/parag-parikh-flexi-cap-fund-direct-plan/MPP002',
             'https://www.moneycontrol.com/mutual-funds/nav/hdfc-index-fund-direct-plan-nifty-50-plan/MHD1152',
-            'https://www.moneycontrol.com/mutual-funds/nav/l-t-midcap-fund-direct-plan/MCC275'
+            'https://www.moneycontrol.com/mutual-funds/nav/l-t-midcap-fund-direct-plan/MCC275',
+            'https://www.moneycontrol.com/mutual-funds/nav/idfc-banking-psu-debt-fund-direct-plan-growth/MAG841'
             ]
 
 fund_name = [] # Array to store all fund names, separated by coma

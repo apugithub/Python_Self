@@ -24,6 +24,12 @@ def png_to_jpg ():
 def send_email_fund_nav():
     import send_email_fund_NAV
 
+def todo_ist():
+    import todo_ist
+
+def google_task_sync():
+    import google_task_sync_todoist
+
 button1 = tk.Button(root, text=' Exit Application ', command=root.destroy, bg='white', fg='black')
 canvas1.create_window(300, 270, window=button1)
 
@@ -41,5 +47,11 @@ canvas1.create_window(550, 50, window=button5)
 
 button6 = tk.Button(root, text=' Send Email (Fund NAV) ', command=send_email_fund_nav, bg='blue', fg='white', font=('Arial', 11, 'bold'))
 canvas1.create_window(95, 100, window=button6)
+
+button7 = tk.Button(root, text=' ToDoist Sync ', command=todo_ist, bg='orange', fg='black', font=('Arial', 11, 'bold'))
+canvas1.create_window(270, 100, window=button7)
+
+button7 = tk.Button(root, text=' GoogleTask Sync ', command=google_task_sync, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
+canvas1.create_window(420, 100, window=button7)
 
 root.mainloop()
