@@ -51,7 +51,7 @@ canvas1.create_window(95, 100, window=button6)
 button7 = tk.Button(root, text=' ToDoist Sync ', command=todo_ist, bg='orange', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(270, 100, window=button7)
 
-button7 = tk.Button(root, text=' GoogleTask Sync ', command=google_task_sync, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
-canvas1.create_window(420, 100, window=button7)
+button8 = tk.Button(root, text=' GoogleTask Sync ', command=google_task_sync, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
+canvas1.create_window(420, 100, window=button8)
 
 root.mainloop()

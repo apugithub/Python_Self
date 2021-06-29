@@ -4,6 +4,8 @@ import time
 from tqdm import tqdm  # For progress bar
 import pandas as pd
 
+start = time.time()
+
 f = open('D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist.json')
 todoist_json = json.load(f)
 
@@ -52,10 +54,10 @@ def show_all_tasks():  # This will show all tasks of the mentioned tasklist id o
         a = service.tasks().list(tasklist=tasklistid, maxResults=100, pageToken=pagetoken).execute()
 
         try:  # If Task list is not empty
-            for i in range(len(a['items'])):
-                task_name_id['Task_Name'].append(a['items'][i]['title'])
-                task_name_id['Task_ID'].append(a['items'][i]['id'])
-                task_name_id['Task_Due'].append(a['items'][i]['due'])
+            for ii in range(len(a['items'])):
+                task_name_id['Task_Name'].append(a['items'][ii]['title'])
+                task_name_id['Task_ID'].append(a['items'][ii]['id'])
+                task_name_id['Task_Due'].append(a['items'][ii]['due'])
         except Exception:
             return None
 
@@ -111,16 +113,16 @@ def export_googletasks():
 
 export_googletasks()
 
-print('\nOperation completed !!')
+print('\nOperation complete !! Total time taken {} seconds\n\n'.format(round(time.time()-start), 2))
 
-''' To add a google account to use this app, if publishing status is in testing): [in testing, token validity 2 weeks]
+''' To add a google account to use this app, if publishing status is in testing: [in testing, token validity 2 weeks]
     the same account needs to be added in test user of API, for that
     1. login to Google Cloud (where API was registered)==> API & Services ==> OAuth consent screen ==> 
     ADD USERS (in Test users) ==> add the gmail_id of new user 
     
-    2. remove pickle file then run the google_task_sync_todoist.py
+    2. remove pickle file (from from local system) then run the google_task_sync_todoist.py **
     3. Use the link appeared in console to authenticate the app in your account
-    ***** Only one account can be added in one pickle file
+    ** Only one account can be added in one pickle file
     
 To add a google account to use this app, if publishing status is in production): [in prod, token validity no limit]
     No need to add the user, but total 100 users can access the app

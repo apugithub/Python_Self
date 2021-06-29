@@ -3,6 +3,9 @@ import pandas as pd
 import json
 import time
 from tqdm import tqdm
+import sqlite3
+
+start = time.time()
 
 f = open('D:/Essentials/Blue Bird ==========/Documents/Todoist/API_Keys.json')
 keys = json.load(f)
@@ -42,8 +45,8 @@ def delete_completed(item_list):
     else:
         print('\n\n' + 'Number of tasks to be deleted: {}\n'.format(len(item_list)))
         c = 0
-        for i in item_list:
-            item = api.items.get_by_id(i)
+        for ii in item_list:
+            item = api.items.get_by_id(ii)
             print('Item Deleted: ' + item['content'])
             item.delete()
             api.commit()
@@ -77,14 +80,49 @@ for i in tqdm(range(len(items1))):  # tqdm along with time.sleep is for progress
     active_tasks['Due_Date'].append(items1[i]['due']['date'])
     active_tasks['Task_ID'].append(items1[i]['id'])
     active_tasks['Project_ID'].append(items1[i]['project_id'])
-    active_tasks['Priority'].append(items1[i]['priority'])
+    prio = 4 if items1[i]['priority'] == 1 else (
+        3 if items1[i]['priority'] == 2 else (2 if items1[i]['priority'] == 3 else 1))
+    active_tasks['Priority'].append(prio)
+    # active_tasks['Priority'].append(items1[i]['priority'])
+    # Priority is stored reverse eg. frontend Priority 1 = backend Priority 4, frontend Priority 2 = backend Priority 3
     time.sleep(0.01)
 
-df = pd.DataFrame(active_tasks).sort_values(by=['Due_Date'], ascending=True)
+df = pd.DataFrame(active_tasks).sort_values(by=['Due_Date', 'Priority'], ascending=True)
 df.to_json(r'D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist.json', orient='records', indent=4)
 
-print('\n\n' + 'JSON Backup taken successfully, operation complete !!')
+print('\n' + 'JSON Backup taken successfully')
 
+
+# ###############  Inserting records in SQLite DB  ############################################
+print('\nSQLite records insertion started ')
+
+db_location = 'D:/Essentials/Blue Bird ==========/Documents/Todoist/todoist.db'
+
+db_connection = sqlite3.connect(db_location)
+cursor = db_connection.cursor()
+print('Connected to SQLite DB\n')
+
+try:
+    cursor.execute('DELETE FROM todoist')
+
+    for i in tqdm(range(len(active_tasks['Task_Name']))):
+
+        insert_query = '''INSERT INTO todoist (name, duedate, priority) VALUES ("{0}", '{1}', {2})''' \
+            .format(active_tasks['Task_Name'][i], active_tasks['Due_Date'][i], active_tasks['Priority'][i])
+
+        cursor.execute(insert_query)
+        db_connection.commit()
+        time.sleep(0.001)
+
+    count = cursor.execute('select count(*) from todoist')
+    print('\nRecords inserted successfully in SQLite DB: ', count.fetchone()[0])  # fetchone() [0]  gives the rowcount
+
+
+except sqlite3.Error as e:
+    print('Failed to insert due to error : ', e)
+
+finally:
+    db_connection.close()
+    print('\nOperation complete !! Total time taken {} seconds\n\n'.format(round(time.time()-start), 2))
 
 # Found alternate solution at  https://gist.github.com/Maxr1998/82cebde74a4845cb485ac0d5a6dbefa6
-
