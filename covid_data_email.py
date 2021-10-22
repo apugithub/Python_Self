@@ -167,3 +167,7 @@ except smtplib.SMTPAuthenticationError:
 except :
     print("an error occured")
 server.quit()
+
+
+# If it throws error like ('Couldn't login due to Authentication error')
+#  then visit: https://accounts.google.com/DisplayUnlockCaptcha

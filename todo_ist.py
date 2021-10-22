@@ -7,6 +7,12 @@ import sqlite3
 
 start = time.time()
 
+# #################### SQLite Config ###########################
+db_location = 'D:/Essentials/Blue Bird ==========/Documents/Todoist/todoist.db'
+db_connection = sqlite3.connect(db_location)
+cursor = db_connection.cursor()
+# #############################################################
+
 f = open('D:/Essentials/Blue Bird ==========/Documents/Todoist/API_Keys.json')
 keys = json.load(f)
 
@@ -22,7 +28,7 @@ completed_task_list = []
 active_tasks = {'Task_Name': [], 'Due_Date': [], 'Priority': [], 'Task_ID': [], 'Project_ID': []}
 
 print('\n\nTotal Projects: ', len(projects))
-print('Total Tasks [Completed + Non-Completed]: ', len(items))
+print('Total Tasks [Completed + Non-Completed]: ', len(items))   # At a time 30 completed tasks can be retrieved
 
 for i in range(len(items)):
     projects_with_tasks.add(items[i]['project_id'])
@@ -48,6 +54,16 @@ def delete_completed(item_list):
         for ii in item_list:
             item = api.items.get_by_id(ii)
             print('Item Deleted: ' + item['content'])
+            prt = 4 if item['priority'] == 1 else (3 if item['priority'] == 2 else (2 if item['priority'] == 3 else 1))
+            insert_archive = '''insert into todoist_archive (name, duedate, priority, date_added, date_completed) \
+            values (?,?,?,?,?)'''
+            try:
+                cursor.execute(insert_archive, (item['content'], item['due']['date'], prt, item['date_added'],
+                                                item['date_completed']))
+                db_connection.commit()
+            except sqlite3.Error as s:
+                print('There are issues during SQLite archival: ', s)
+
             item.delete()
             api.commit()
             c = c+1
@@ -95,11 +111,6 @@ print('\n' + 'JSON Backup taken successfully')
 
 # ###############  Inserting records in SQLite DB  ############################################
 print('\nSQLite records insertion started ')
-
-db_location = 'D:/Essentials/Blue Bird ==========/Documents/Todoist/todoist.db'
-
-db_connection = sqlite3.connect(db_location)
-cursor = db_connection.cursor()
 print('Connected to SQLite DB\n')
 
 try:

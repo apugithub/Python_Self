@@ -41,13 +41,12 @@ r = response.json()
 
 
 # Below for loop is to arrange the JSON as per the order of scheme_code
-for i in tqdm(scheme_code):  # Iterating for every scheme code
+for i in scheme_code:  # Iterating for every scheme code
     for k in r:
         if k['Scheme Code'] == i:
             fund_name.append(k['Scheme Name'])
             nav.append(float(k['Net Asset Value']))  # Converting net asset value to float
             nav_date.append(k['Date'])
-    time.sleep(0.01)
 
 df = pd.DataFrame(final_dict)
 print(df)
