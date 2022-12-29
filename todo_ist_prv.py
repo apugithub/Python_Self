@@ -40,9 +40,8 @@ for i in projects_with_tasks:
     for j in completed_tasks:
         completed_task_list.append(j['id'])
 
-print(completed_task_list)
-# For deleting completed tasks
 
+# For deleting completed tasks
 
 def delete_completed(item_list):
     if not item_list:  # To check if a list is empty
@@ -52,28 +51,26 @@ def delete_completed(item_list):
         print('\n\n' + 'Number of tasks to be deleted: {}\n'.format(len(item_list)))
         c = 0
         for ii in item_list:
-            for jj in range(len(api.items.all())):
-                if ii == api.items.all()[jj]['id']:   # Earlier REST API method ('get_by_id) is no longer supported
-                    item = api.items.all()[jj]
-                    print('Item Deleted: ' + item['content'])
-                    prt = 4 if item['priority'] == 1 else (3 if item['priority'] == 2 else (2 if item['priority'] == 3 else 1))
-                    insert_archive = '''insert into todoist_archive (name, duedate, priority, date_added, date_completed) \
-                    values (?,?,?,?,?)'''
-                    try:
-                        cursor.execute(insert_archive, (item['content'], item['due']['date'], prt, item['date_added'],
-                                                        item['date_completed']))
-                        db_connection.commit()
-                    except sqlite3.Error as s:
-                        print('There are issues during SQLite archival: ', s)
+            item = api.items.get_by_id(ii)
+            print('Item Deleted: ' + item['content'])
+            prt = 4 if item['priority'] == 1 else (3 if item['priority'] == 2 else (2 if item['priority'] == 3 else 1))
+            insert_archive = '''insert into todoist_archive (name, duedate, priority, date_added, date_completed) \
+            values (?,?,?,?,?)'''
+            try:
+                cursor.execute(insert_archive, (item['content'], item['due']['date'], prt, item['date_added'],
+                                                item['date_completed']))
+                db_connection.commit()
+            except sqlite3.Error as s:
+                print('There are issues during SQLite archival: ', s)
 
-                    item.delete()
-                    api.commit()
-                    c = c+1
+            item.delete()
+            api.commit()
+            c = c+1
         print('\nTasks Deleted: ', c)
         # print('Total Active Tasks after delete: ', len(items)-c, end='\n\n')
 
 
-# delete_completed(completed_task_list)
+delete_completed(completed_task_list)
 
 # Project Details dict formation (This includes all the projects even if it does not have a task)
 for i in range(len(projects)):

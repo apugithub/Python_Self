@@ -1,7 +1,7 @@
 import tkinter as tk
 
 root = tk.Tk()
-root.title ("Important Programs")
+root.title("Important Programs")
 
 canvas1 = tk.Canvas(root, width=700, height=300)
 canvas1.pack()
@@ -30,6 +30,9 @@ def todo_ist():
 def google_task_sync():
     import google_task_sync_todoist
 
+def balance_mf_bank():
+    import balance_to_maintain
+
 button1 = tk.Button(root, text=' Exit Application ', command=root.destroy, bg='white', fg='black')
 canvas1.create_window(300, 270, window=button1)
 
@@ -53,5 +56,9 @@ canvas1.create_window(270, 100, window=button7)
 
 button8 = tk.Button(root, text=' GoogleTask Sync ', command=google_task_sync, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(420, 100, window=button8)
+
+button9 = tk.Button(root, text=' MF Balance Maintain ', command=balance_mf_bank, bg='red', fg='black', font=('Arial', 11, 'bold'))
+canvas1.create_window(600, 100, window=button9)
+
 
 root.mainloop()

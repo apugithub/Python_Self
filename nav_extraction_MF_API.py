@@ -5,7 +5,7 @@ import pandas as pd
 
 scheme_code = ['120389', '120503', '119125', '119242', '118551', '118506', '118560', '118473', '111569', '119746',
                '120166', '129220', '118701', '118803', '119598', '119609', '119019', '122639', '119063', '119807',
-               '121279']
+               '121279', '119800']
 
 fund_name = []
 nav = []
@@ -24,4 +24,4 @@ for items in scheme_code:
 df = pd.DataFrame(final_dict)
 print(df)
 
-df.to_excel('D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/Fund_with_NAV.xlsx', index=False, header= True)
+# df.to_excel('D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/Fund_with_NAV.xlsx', index=False, header= True)

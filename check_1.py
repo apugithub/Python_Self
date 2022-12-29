@@ -1,6 +1,9 @@
-scheme_code = [120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746,
-               120166, 129220, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 119807,
-               121279]
+querystring = {"SchemeCode": '120389, 120503, 119125, 119242, 118551'}
+scheme_code1 = querystring.get("SchemeCode").split(',')
+scheme_code = [i.strip() for i in querystring.get("SchemeCode").split(',')]
 
-for i in scheme_code:
-    print(i)
+
+print(scheme_code)
+print([i.strip() for i in querystring.get("SchemeCode").split(',')])
+print(a)
+
