@@ -13,9 +13,9 @@ current_date_str = int(current_date.strftime("%d"))
 
 
 # Axis ASAP (MF)
-df_axis = {4: 4989, 7: 4000, 18: 5248, 19: 4988}
+df_axis = {4: 3292, 9: 4099, 12: 4390, 18: 12297, 19: 3292, 24: 1798}
 # SBI_2 (MF)
-df_sbi2 = {3: 4086, 15: 6711, 21: 2500, 28: 7872}
+df_sbi2 = {3: 14994, 15: 7132, 21: 3000, 28: 12297}
 
 
 def calculate(df):

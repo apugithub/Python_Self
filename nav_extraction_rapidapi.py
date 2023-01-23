@@ -8,6 +8,7 @@ import json
 import logging
 
 location = 'D:\\Essentials\\Blue Bird ==========\\Tracing\\Pycharm_project\\'
+scheme_code_path = 'D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/'
 
 # Setting logging to DEBUG will return every type of message
 logging.basicConfig(level=logging.DEBUG, filename=location + 'NAV_Extaction(rapidapi).log',
@@ -31,10 +32,17 @@ final_dict = {'Fund_Name': fund_name, 'NAV': nav, 'NAV_Date': nav_date, 'Scheme_
 
 url = "https://latest-mutual-fund-nav.p.rapidapi.com/fetchLatestNAV"
 
-# Supports multiple comma separated Scheme Code
-querystring = {"SchemeCode": '120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746, 120166, '
-                             '151130, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 151036,121279,'
-                             '119800, 119092'}
+
+df_codes = pd.read_excel(scheme_code_path + 'Codes.xlsx')   # Just add the scheme code in this doc
+df_codes_list = df_codes['Scheme_Code'].tolist()
+scheme_string = ', '.join(str(x) for x in df_codes_list)
+
+querystring = {"SchemeCode": '{}'.format(scheme_string)}
+
+
+querystring_1 = {"SchemeCode": '120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746, '
+                               '120166, 151130, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 151036,121279,'
+                               '119800, 119092'}
 
 headers = {
     'x-rapidapi-host': "latest-mutual-fund-nav.p.rapidapi.com",
@@ -48,6 +56,7 @@ logging.info('Received JSON response')
 
 # The below line will make scheme_code appear in list e.g ['120389', '120503', '119125']
 scheme_code = [i.strip() for i in querystring.get("SchemeCode").split(',')]
+
 
 logging.info('Traversing through scheme code')
 # Below for loop is to arrange the JSON as per the order of scheme_code
@@ -79,7 +88,7 @@ logging.info('All scheme returned data' if len(df) == len(scheme_code) else
              'Warning : Some scheme did not return data: {}'.format(','.join(t for t in list_compare())))
 
 try:
-    df.to_excel('D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/Fund_with_NAV.xlsx', index=False, header=True)
+    df.to_excel(scheme_code_path + 'Fund_with_NAV.xlsx', index=False, header=True)
     logging.info('Data written to Excel..')
 except Exception as e:
     logging.info('There are issue writing in Excel, it may be kept open')

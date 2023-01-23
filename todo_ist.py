@@ -1,6 +1,7 @@
-from todoist.api import TodoistAPI
-import pandas as pd
+from todoist_api_python.api import TodoistAPI
 import json
+import pandas as pd
+import requests
 import time
 from tqdm import tqdm
 import sqlite3
@@ -13,128 +14,133 @@ db_connection = sqlite3.connect(db_location)
 cursor = db_connection.cursor()
 # #############################################################
 
+
+# ######################  Initial setup ########################################
 f = open('D:/Essentials/Blue Bird ==========/Documents/Todoist/API_Keys.json')
 keys = json.load(f)
 
+headers = {
+    "Authorization": 'Bearer {}'.format(keys['TODOIST_API'])
+}
 api = TodoistAPI(keys['TODOIST_API'])
-api.sync()
-
-projects = api.state['projects']
-items = api.items.all()   # This contains Not completed & Completed tasks but not the deleted tasks
-
-project_details = {'proj_name': [], 'proj_id': []}
-projects_with_tasks = set()  # Set is used to retain only unique values
-completed_task_list = []
-active_tasks = {'Task_Name': [], 'Due_Date': [], 'Priority': [], 'Task_ID': [], 'Project_ID': []}
-
-print('\n\nTotal Projects: ', len(projects))
-print('Total Tasks [Completed + Non-Completed]: ', len(items))   # At a time 30 completed tasks can be retrieved
-
-for i in range(len(items)):
-    projects_with_tasks.add(items[i]['project_id'])
-
-print('Project IDs with tasks: ', list(projects_with_tasks))  # Here converted to list from set
-
-for i in projects_with_tasks:
-    completed_tasks = api.items.get_completed(project_id=i)  # a maximum of 100 tasks is supported per batch
-    for j in completed_tasks:
-        completed_task_list.append(j['id'])
-
-print(completed_task_list)
-# For deleting completed tasks
+print('Initial setup done \n')
+#####################################################################################
 
 
-def delete_completed(item_list):
-    if not item_list:  # To check if a list is empty
-        print('\n' + 'No Completed Tasks Available for Delete')
-        # print('Total active tasks: {}'.format(len(items)), end='\n\n')
-    else:
-        print('\n\n' + 'Number of tasks to be deleted: {}\n'.format(len(item_list)))
-        c = 0
-        for ii in item_list:
-            for jj in range(len(api.items.all())):
-                if ii == api.items.all()[jj]['id']:   # Earlier REST API method ('get_by_id) is no longer supported
-                    item = api.items.all()[jj]
-                    print('Item Deleted: ' + item['content'])
-                    prt = 4 if item['priority'] == 1 else (3 if item['priority'] == 2 else (2 if item['priority'] == 3 else 1))
-                    insert_archive = '''insert into todoist_archive (name, duedate, priority, date_added, date_completed) \
-                    values (?,?,?,?,?)'''
-                    try:
-                        cursor.execute(insert_archive, (item['content'], item['due']['date'], prt, item['date_added'],
-                                                        item['date_completed']))
-                        db_connection.commit()
-                    except sqlite3.Error as s:
-                        print('There are issues during SQLite archival: ', s)
+active_tasks_dict = {'Task_Name': [], 'Creation_Date': [], 'Due_Date': [], 'Priority': [],
+                     'Task_ID': [], 'Project_ID': []}
 
-                    item.delete()
-                    api.commit()
-                    c = c+1
-        print('\nTasks Deleted: ', c)
-        # print('Total Active Tasks after delete: ', len(items)-c, end='\n\n')
+prio_dict = {4: 1, 3: 2, 2: 3, 1: 4}
+
+project_ids = []  # Project having tasks
+sync_param = {"sync_token": '*', "resource_types": '["all"]'}
+sync = requests.post(url='https://api.todoist.com/sync/v9/sync', headers=headers,
+                     params=sync_param)
+print('Syncing is done')
 
 
-# delete_completed(completed_task_list)
+# Getting ACTIVE tasks & loading into JSON & Taking DB Backup
+print('Getting Active tasks..\n')
+active_tasks = api.get_tasks()
+try:
+    for i in tqdm(range(len(active_tasks))):  # tqdm along with time.sleep is for progress bar only
+        active_tasks_dict['Task_Name'].append(active_tasks[i].content)
+        active_tasks_dict['Creation_Date'].append(active_tasks[i].created_at)
+        active_tasks_dict['Due_Date'].append(active_tasks[i].due.to_dict().get('date'))
+        active_tasks_dict['Task_ID'].append(active_tasks[i].id)
+        active_tasks_dict['Project_ID'].append(active_tasks[i].project_id)
+        prio = 4 if active_tasks[i].priority == 1 else (
+            3 if active_tasks[i].priority == 2 else (2 if active_tasks[i].priority == 3 else 1))
+        active_tasks_dict['Priority'].append(prio)
+        # Priority is stored reverse eg. frontend Priority 1 = backend Priority 4,
+        # frontend Priority 2 = backend Priority 3
+        time.sleep(0.01)
 
-# Project Details dict formation (This includes all the projects even if it does not have a task)
-for i in range(len(projects)):
-    project_details['proj_name'].append(projects[i]['name'])
-    project_details['proj_id'].append(projects[i]['id'])
+    df = pd.DataFrame(active_tasks_dict).sort_values(by=['Due_Date', 'Priority'], ascending=True)
+    df.to_json(r'D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist_99.json', orient='records', indent=4)
+    print('JSON Backup taken successfully\n')
 
-
-# For Adding Project
-def add_project(proj_name):
-    api.projects.add(proj_name)
-    api.commit()
-
-
-items1 = api.items.all()  # Taking items after delete operation (of completed tasks)
-print('\nTotal Active Tasks Currently: ', len(items1))
-
-# Get Task Details
-print('Backup Process Started...\n')
-for i in tqdm(range(len(items1))):  # tqdm along with time.sleep is for progress bar only
-    active_tasks['Task_Name'].append(items1[i]['content'])
-    active_tasks['Due_Date'].append(items1[i]['due']['date'])
-    active_tasks['Task_ID'].append(items1[i]['id'])
-    active_tasks['Project_ID'].append(items1[i]['project_id'])
-    prio = 4 if items1[i]['priority'] == 1 else (
-        3 if items1[i]['priority'] == 2 else (2 if items1[i]['priority'] == 3 else 1))
-    active_tasks['Priority'].append(prio)
-    # active_tasks['Priority'].append(items1[i]['priority'])
-    # Priority is stored reverse eg. frontend Priority 1 = backend Priority 4, frontend Priority 2 = backend Priority 3
-    time.sleep(0.01)
-
-df = pd.DataFrame(active_tasks).sort_values(by=['Due_Date', 'Priority'], ascending=True)
-df.to_json(r'D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist.json', orient='records', indent=4)
-
-print('\n' + 'JSON Backup taken successfully')
+except Exception as error:
+    print(error)
 
 
-# ###############  Inserting records in SQLite DB  ############################################
-print('\nSQLite records insertion started ')
-print('Connected to SQLite DB\n')
+# ###############  Inserting Active tasks in SQLite DB  ############################################
+print('Loading Active tasks into DB....(truncate & load)\n')
 
 try:
-    cursor.execute('DELETE FROM todoist')
+    cursor.execute('DELETE FROM todoist')  # This is truncate and load process
 
-    for i in tqdm(range(len(active_tasks['Task_Name']))):
+    for i in tqdm(range(len(active_tasks_dict['Task_Name']))):
 
-        insert_query = '''INSERT INTO todoist (name, duedate, priority) VALUES ("{0}", '{1}', {2})''' \
-            .format(active_tasks['Task_Name'][i], active_tasks['Due_Date'][i], active_tasks['Priority'][i])
+        insert_query = '''INSERT INTO todoist (name, duedate, priority, created_at) 
+                          VALUES ("{0}", '{1}', {2}, '{3}')''' \
+            .format(active_tasks_dict['Task_Name'][i], active_tasks_dict['Due_Date'][i],
+                    active_tasks_dict['Priority'][i], active_tasks_dict['Creation_Date'][i])
 
         cursor.execute(insert_query)
         db_connection.commit()
         time.sleep(0.001)
 
     count = cursor.execute('select count(*) from todoist')
-    print('\nRecords inserted successfully in SQLite DB: ', count.fetchone()[0])  # fetchone() [0]  gives the rowcount
+    print('Active tasks inserted successfully in SQLite DB: ', count.fetchone()[0])
+    # fetchone() [0]  gives the rowcount
 
 
 except sqlite3.Error as e:
     print('Failed to insert due to error : ', e)
 
-finally:
-    db_connection.close()
-    print('\nOperation complete !! Total time taken {} seconds\n\n'.format(round(time.time()-start), 2))
 
-# Found alternate solution at  https://gist.github.com/Maxr1998/82cebde74a4845cb485ac0d5a6dbefa6
+# ########################### Operations on deleted items ###########################
+
+# Below response will fetch all completed tasks (including deleted), and we need to pass only header for that
+response_all_tasks = requests.post(url='https://api.todoist.com/sync/v9/completed/get_all', headers=headers)
+c5 = response_all_tasks.json()
+[project_ids.append(c5['items'][i]['project_id']) for i in range(len(c5['items']))]
+project_ids = list(set(project_ids))
+
+
+print('\n')
+print('Operations started on deleted tasks...')
+print('\n')
+c = 0  # Just a counter
+
+for j in project_ids:
+    # The below response is to get the project-wise tasks(completed & is_deleted=false)
+    response_task2 = requests.post(url='https://api.todoist.com/sync/v9/archive/items?project_id={}'.format(j),
+                                   headers=headers, params={"limit": 90})  # Max limit 100
+    c2 = response_task2.json()
+    project_name = api.get_project(project_id=j).name
+    print('No. of completed items to be deleted from project {}: {} \n'.format(project_name, c2['total']))
+
+    if c2['total'] != 0:
+        # Below part is to get the items's details
+        for i in range(len(c2['items'])):
+            # Below response is to fetch specific task (non deleted) details and we need to pass task id as param
+            response_task = requests.post(url='https://api.todoist.com/sync/v9/items/get',
+                                          headers=headers, params={"item_id": "{}".format(c2['items'][i]['id'])})
+            task_json = response_task.json()
+            print('Task deleted: ', task_json['item']['content'])
+
+            insert_archive = '''insert into todoist_archive (name, duedate, priority, date_added, date_completed) \
+                        values (?,?,?,?,?)'''
+            try:
+                cursor.execute(insert_archive, (task_json['item']['content'], task_json['item']['due']['date'],
+                                                prio_dict.get(task_json['item']['priority']), task_json['item']['added_at'],
+                                                task_json['item']['completed_at']))
+                db_connection.commit()
+                c = c + 1
+            except sqlite3.Error as s:
+                print('There are issues during SQLite archival: ', s)
+
+            # Deleting the task
+            api.delete_task(task_id=c2['items'][i]['id'])
+    else:
+        print('All clean !!  no completed items are pending to be deleted from project: ', project_name)
+
+
+print('\n')
+print('Total items deleted: ', c)
+print('Deleted items loaded in DB')
+
+db_connection.close()
+print('\nOperation complete !! Total time taken {} seconds\n\n'.format(round(time.time()-start), 2))

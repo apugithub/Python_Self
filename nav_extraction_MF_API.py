@@ -3,14 +3,17 @@ import pandas as pd
 
 # Mutual Fund API = https://www.mfapi.in/
 
-# Every time new funds gets added, just add the scheme code in querystring
-querystring = {"SchemeCode": '120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746, 120166, '
-                             '151130, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 151036,121279,119800,'
-                             '119092'}
+scheme_code_path = 'D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/'
 
-scheme_code_old = ['120389', '120503', '119125', '119242', '118551', '118506', '118560', '118473', '111569', '119746',
-               '120166', '129220', '118701', '118803', '119598', '119609', '119019', '122639', '119063', '119807',
-               '121279', '119800', '119092']
+df_codes = pd.read_excel(scheme_code_path + 'Codes.xlsx')   # Just add the scheme code in this doc
+df_codes_list = df_codes['Scheme_Code'].tolist()
+scheme_string = ', '.join(str(x) for x in df_codes_list)
+
+querystring = {"SchemeCode": '{}'.format(scheme_string)}
+
+querystring_1 = {"SchemeCode": '120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746, '
+                               '120166, 151130, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 151036,121279,'
+                               '119800, 119092'}
 
 scheme_code = [i.strip() for i in querystring.get("SchemeCode").split(',')]
 
