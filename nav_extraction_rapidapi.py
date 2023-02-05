@@ -6,6 +6,8 @@ import requests
 import pandas as pd
 import json
 import logging
+import win32com.client
+# import time
 
 location = 'D:\\Essentials\\Blue Bird ==========\\Tracing\\Pycharm_project\\'
 scheme_code_path = 'D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/'
@@ -90,10 +92,29 @@ logging.info('All scheme returned data' if len(df) == len(scheme_code) else
 try:
     df.to_excel(scheme_code_path + 'Fund_with_NAV.xlsx', index=False, header=True)
     logging.info('Data written to Excel..')
+    print('Data written to excel')
 except Exception as e:
     logging.info('There are issue writing in Excel, it may be kept open')
     logging.error(e)
     print('ERROR in wring data to excel')
+
+
+# This part is to refresh the MF Investment Tracker as per latest NAV
+try:
+    excelapp = win32com.client.Dispatch("Excel.Application")
+    wb = excelapp.Workbooks.Open("D:/Essentials/Blue Bird ==========/Banks/Mutual Funds/MF Investments tracker.xlsx")
+    wb.RefreshAll()
+    excelapp.CalculateUntilAsyncQueriesDone()  # This will wait till the refresh is complete or use below line
+    # time.sleep(1)
+    wb.Save()
+    excelapp.Quit()
+    print('\nData refreshed in - \'MF Investments tracker\' as per latest NAV')
+    logging.info('Data refreshed in - MF Investments tracker as per latest NAV')
+    print('Operations Complete !!')
+except Exception as e1:
+    logging.info('There are some issue refreshing - MF Investments tracker')
+    logging.error(e1)
+    print('There are some issue refreshing - MF Investments tracker')
 
 # print(df['Scheme_Code'].tolist())
 # Not exists: 119807
