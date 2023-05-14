@@ -33,10 +33,20 @@ def google_task_sync():
 def balance_mf_bank():
     import balance_to_maintain
 
+def age_cal():
+    import age_calc
+
+def remove_pdf_pass ():
+    import remove_pdf_password
+
+def flask2_run():
+    import flask2_run
+
+
 button1 = tk.Button(root, text=' Exit Application ', command=root.destroy, bg='white', fg='black')
 canvas1.create_window(300, 270, window=button1)
 
-button2 = tk.Button(root, text=' Covid Stat (Email) ', command=covid_email, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
+button2 = tk.Button(root, text=' Age Calculation ', command=age_cal, bg='palegreen2', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(80, 50, window=button2)
 
 button3 = tk.Button(root, text=' NAV Extraction ', command=nav_extraction, bg='yellow', fg='black', font=('Arial', 11, 'bold'))
@@ -45,7 +55,7 @@ canvas1.create_window(250, 50, window=button3)
 button4 = tk.Button(root, text=' PNG to Jpeg ', command=png_to_jpg, bg='violet', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(400, 50, window=button4)
 
-button5 = tk.Button(root, text=' AM_PM (Test) ', command=test, bg='orange', fg='black', font=('Arial', 11, 'bold'))
+button5 = tk.Button(root, text=' Remove PDF Pass ', command=remove_pdf_pass, bg='orange', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(550, 50, window=button5)
 
 button6 = tk.Button(root, text=' Send Email (Fund NAV) ', command=send_email_fund_nav, bg='blue', fg='white', font=('Arial', 11, 'bold'))
@@ -60,5 +70,7 @@ canvas1.create_window(420, 100, window=button8)
 button9 = tk.Button(root, text=' MF Balance Maintain ', command=balance_mf_bank, bg='red', fg='black', font=('Arial', 11, 'bold'))
 canvas1.create_window(600, 100, window=button9)
 
+button10 = tk.Button(root, text=' Flask2 Run ', command=flask2_run, bg='indigo', fg='white', font=('Arial', 11, 'bold'))
+canvas1.create_window(60, 150, window=button10)
 
 root.mainloop()

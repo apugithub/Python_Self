@@ -25,23 +25,23 @@ url_list = ['https://www.moneycontrol.com/mutual-funds/nav/axis-liquid-fund-dire
             'https://www.moneycontrol.com/mutual-funds/nav/idfc-banking-psu-debt-fund-direct-plan-growth/MAG841'
             ]
 
-fund_name = [] # Array to store all fund names, separated by coma
-fund_nav = [] # Array to store all fund NAVs, separated by coma
-nav_date = [] # Array to store all NAV dates, separated by coma
+fund_name = []  # Array to store all fund names, separated by coma
+fund_nav = []  # Array to store all fund NAVs, separated by coma
+nav_date = []  # Array to store all NAV dates, separated by coma
 
 for i in url_list:
     url = requests.get(i)
 
-    soup = bs(url.content,'html.parser')
+    soup = bs(url.content, 'html.parser')
 
     #a = soup.find('div', attrs={'class': 'common_left'})
     #name = a.find('h1', attrs={'class': 'page_heading'})
-    name = soup.find('h1', attrs={'class': 'page_heading'}) # we can get from h1 directly as with h1 and the same class
+    name = soup.find('h1', attrs={'class': 'page_heading'})  # we can get from h1 directly as with h1 and the same class
     # there are no other values, other than the fund name
 
-    b = soup.find('div', attrs={'class':'leftblok'}) #Going into main HTML block
-    nav = b.find('span', attrs={'class':'amt'})   # inside block b, appropriate class is chosen
-    date = b.find('div', attrs= {'class':'grayvalue'})
+    b = soup.find('div', attrs={'class': 'leftblok'})  # Going into main HTML block
+    nav = b.find('span', attrs={'class': 'amt'})   # inside block b, appropriate class is chosen
+    date = b.find('div', attrs={'class': 'grayvalue'})
 
     #print (name, nav)
 

@@ -57,7 +57,7 @@ try:
         time.sleep(0.01)
 
     df = pd.DataFrame(active_tasks_dict).sort_values(by=['Due_Date', 'Priority'], ascending=True)
-    df.to_json(r'D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist_99.json', orient='records', indent=4)
+    df.to_json(r'D:/Essentials/Blue Bird ==========/Documents/Todoist/Todoist.json', orient='records', indent=4)
     print('JSON Backup taken successfully\n')
 
 except Exception as error:
