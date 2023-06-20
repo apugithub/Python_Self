@@ -1,7 +1,9 @@
 # This api is taken from rapid api and the app link is as below, here I have modified the code as per my need --
 # # https://rapidapi.com/suneetk92/api/latest-mutual-fund-nav/
 
-# While adding new fund add the same in 'scheme_code' (get from https://www.mfapi.in/) and 'querystring' as well
+# While adding new fund add the same in 'scheme_code' (get from https://www.mfapi.in/) as per line 40
+# Creation date: 01-01-2022
+# Last update date: 15-05-2023
 import requests
 import pandas as pd
 import json
@@ -41,10 +43,6 @@ scheme_string = ', '.join(str(x) for x in df_codes_list)
 
 querystring = {"SchemeCode": '{}'.format(scheme_string)}
 
-
-querystring_1 = {"SchemeCode": '120389, 120503, 119125, 119242, 118551, 118506, 118560, 118473, 111569, 119746, '
-                               '120166, 151130, 118701, 118803, 119598, 119609, 119019, 122639, 119063, 151036,121279,'
-                               '119800, 119092'}
 
 headers = {
     'x-rapidapi-host': "latest-mutual-fund-nav.p.rapidapi.com",

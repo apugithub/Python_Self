@@ -1,4 +1,5 @@
 # This code will give you the balance to be maintained in banks for MF on a given date for the rest of the month
+# Last update date: 15-05-2023
 
 from datetime import date, datetime
 
@@ -13,9 +14,9 @@ current_date_str = int(current_date.strftime("%d"))
 
 
 # Axis ASAP (MF)
-df_axis = {4: 3292, 9: 4099, 12: 4390, 18: 12297, 19: 3292, 24: 1798}
+df_axis = {4: 3292, 6: 4053, 9: 4099, 12: 4390, 18: 12297, 19: 3292, 24: 1798}
 # SBI_2 (MF)
-df_sbi2 = {3: 14994, 15: 7132, 21: 3000, 28: 12297}
+df_sbi2 = {3: 14994, 15: 3079, 21: 3000, 28: 12297}
 
 
 def calculate(df):
